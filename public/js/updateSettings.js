@@ -6,8 +6,8 @@ export const updateSettings = async (data, type) => {
   try {
     const url =
       type === 'data'
-        ? 'http://127.0.0.1:3000/api/v1/users/updateMe'
-        : 'http://127.0.0.1:3000/api/v1/users/updatePassword';
+        ? '/api/v1/users/updateMe'
+        : '/api/v1/users/updatePassword';
     const res = await axios({
       method: 'PATCH',
       url,
@@ -16,8 +16,6 @@ export const updateSettings = async (data, type) => {
     if (res.data.status === 'success') {
       showAlert('success', `You successfully updated ${type}!`);
     }
-
-    console.log(res);
   } catch (error) {
     showAlert('error', error.response.data.message);
   }
