@@ -26,6 +26,12 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.set('trust proxy', 1);
 
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout,
+);
+
 app.use(cors());
 app.options('*', cors());
 // Serving static files
@@ -85,11 +91,6 @@ app.use(
 
 // Body parser, reading data from body into req.body
 app.use(bodyParser.json());
-app.post(
-  '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
-  webhookCheckout,
-);
 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
