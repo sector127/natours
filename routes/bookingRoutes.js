@@ -1,7 +1,7 @@
 const express = require('express');
 
 const {
-  getChckoutSession,
+  getCheckoutSession,
   getAllBookings,
   createBooking,
   getBooking,
@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.use(protect);
 
-router.get('/checkout-session/:tourId', protect, getChckoutSession);
+router.get('/checkout-session/:tourId', protect, getCheckoutSession);
 
 router.use(restrictTo('admin', 'lead-guide'));
 

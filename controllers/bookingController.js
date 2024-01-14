@@ -12,7 +12,7 @@ const {
   deleteOne,
 } = require('./handlerFactory');
 
-exports.getChckoutSession = catchAsync(async (req, res, next) => {
+exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get booked tour
   const tour = await Tour.findById(req.params.tourId);
   const product = await stripe.products.create({
@@ -34,7 +34,7 @@ exports.getChckoutSession = catchAsync(async (req, res, next) => {
     success_url: `${req.protocol}://${req.get('host')}/my-tours`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
-    client_reference_id: req.params.tourID,
+    client_reference_id: req.params.tourId,
     mode: 'payment',
     line_items: [
       {
