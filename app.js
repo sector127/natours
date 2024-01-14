@@ -19,6 +19,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
+const { webhookCheckout } = require('./controllers/bookingController');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -78,6 +79,13 @@ app.use(
       upgradeInsecureRequests: [],
     },
   }),
+);
+
+// before JSON !!!
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout,
 );
 
 // Body parser, reading data from body into req.body
