@@ -23,12 +23,19 @@ const { webhookCheckout } = require('./controllers/bookingController');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+app.set('trust proxy', true);
 
 app.use(cors());
 app.options('*', cors());
 // Serving static files
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// before JSON !!!
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  webhookCheckout,
+);
 
 // Set security HTTP headers
 // Further HELMET configuration for Security Policy (CSP)
@@ -79,13 +86,6 @@ app.use(
       upgradeInsecureRequests: [],
     },
   }),
-);
-
-// before JSON !!!
-app.post(
-  '/webhook-checkout',
-  express.raw({ type: 'application/json' }),
-  webhookCheckout,
 );
 
 // Body parser, reading data from body into req.body
