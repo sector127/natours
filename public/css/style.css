@@ -21,6 +21,26 @@
   box-sizing: inherit;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #55c57a;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #20bf6b;
+}
+
 html {
   font-size: 62.5%;
   -webkit-box-sizing: border-box;
@@ -86,7 +106,7 @@ body {
   background-color: #e0e0e0;
 }
 
-.alert {
+/* .alert {
   position: fixed;
   top: 0;
   left: 50%;
@@ -108,7 +128,7 @@ body {
 }
 .alert--error {
   background-color: #eb4d4b;
-}
+} */
 
 .heading-secondary {
   font-size: 2.25rem;
@@ -313,6 +333,8 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 5px solid #55c57a;
 }
 @media only screen and (max-width: 62.5em) {
   .header {
@@ -934,7 +956,7 @@ body {
 .nav__el--cta {
   padding: 1rem 3rem;
   border-radius: 10rem;
-  border: 1px solid currentColor !important;
+  /* border: 1px solid currentColor !important; */
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
@@ -943,6 +965,7 @@ body {
   color: #777;
   text-shadow: none;
   border-color: #f7f7f7;
+  transform: none;
 }
 .nav__search {
   display: -webkit-box;
@@ -1320,4 +1343,53 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+/* Style for the alert container */
+.alert {
+  position: fixed;
+  top: 120px;
+  right: 30px;
+  width: 400px;
+  padding: 15px;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 999 !important;
+}
+
+/* Style for success alert */
+.alert--success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Style for error alert */
+.alert--error {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Style for alert content */
+.alert__content {
+  margin-bottom: 10px;
+}
+
+/* Style for progress bar container */
+.alert__progress-bar-container {
+  height: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Style for progress bar */
+.alert__progress-bar {
+  height: 100%;
+  width: 100%;
+  background-color: #444;
+  transition: width 0.1s ease-in-out;
 }

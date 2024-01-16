@@ -14,9 +14,33 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      showAlert('success', 'Logged in successfully!');
+      showAlert('success', 'Logged in successfully!', 1500);
       window.setTimeout(() => {
         location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.response.data.message);
+  }
+};
+
+export const signup = async (name, email, password, passwordConfirmation) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'api/v1/users/signup',
+      data: {
+        name,
+        email,
+        password,
+        passwordConfirmation,
+      },
+    });
+
+    if (res.data.status === 'success') {
+      showAlert('success', 'Signed up successfully!');
+      window.setTimeout(() => {
+        location.assign('/me');
       }, 1500);
     }
   } catch (err) {

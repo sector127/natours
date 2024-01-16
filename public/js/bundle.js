@@ -2173,16 +2173,35 @@
   } = axios_default;
 
   // public/js/alerts.js
+  var showAlert = (type, msg, duration = 5e3) => {
+    hideAlert();
+    const markup = `
+    <div class="alert alert--${type}">
+      <div class="alert__content">${msg}</div>
+      <div class="alert__progress-bar-container">
+        <div class="alert__progress-bar"></div>
+      </div>
+    </div>
+  `;
+    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    const alertElement = document.querySelector(".alert");
+    const progressBar = document.querySelector(".alert__progress-bar");
+    let currentTime = 0;
+    const interval = 100;
+    const progressInterval = setInterval(() => {
+      currentTime += interval;
+      const progressWidth = (1 - currentTime / duration) * 100;
+      progressBar.style.width = `${Math.max(progressWidth, 0)}%`;
+    }, interval);
+    window.setTimeout(() => {
+      hideAlert();
+      clearInterval(progressInterval);
+    }, duration);
+  };
   var hideAlert = () => {
     const el = document.querySelector(".alert");
     if (el)
       el.parentElement.removeChild(el);
-  };
-  var showAlert = (type, msg) => {
-    hideAlert();
-    const markup = `<div class="alert alert--${type}">${msg}</div>`;
-    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
-    window.setTimeout(hideAlert, 5e3);
   };
 
   // public/js/login.js
@@ -2197,9 +2216,31 @@
         }
       });
       if (res.data.status === "success") {
-        showAlert("success", "Logged in successfully!");
+        showAlert("success", "Logged in successfully!", 1500);
         window.setTimeout(() => {
           location.assign("/");
+        }, 1500);
+      }
+    } catch (err) {
+      showAlert("error", err.response.data.message);
+    }
+  };
+  var signup = async (name, email, password, passwordConfirmation) => {
+    try {
+      const res = await axios_default({
+        method: "POST",
+        url: "api/v1/users/signup",
+        data: {
+          name,
+          email,
+          password,
+          passwordConfirmation
+        }
+      });
+      if (res.data.status === "success") {
+        showAlert("success", "Signed up successfully!");
+        window.setTimeout(() => {
+          location.assign("/me");
         }, 1500);
       }
     } catch (err) {
@@ -2256,6 +2297,7 @@
   // public/js/index.js
   var leafletEl = document.getElementById("map");
   var loginForm = document.querySelector(".form--login");
+  var signupForm = document.querySelector(".form--signup");
   var logOutBtn = document.querySelector(".nav__el--logout");
   var userDataForm = document.querySelector(".form-user-data");
   var userPasswordForm = document.querySelector(".form.form-user-password");
@@ -2271,6 +2313,18 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       login(email, password);
+    });
+  }
+  if (signupForm) {
+    signupForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const passwordConfirmation = document.getElementById(
+        "passwordConfirmation"
+      ).value;
+      signup(name, email, password, passwordConfirmation);
     });
   }
   if (logOutBtn)

@@ -1,3 +1,4 @@
+const { default: axios } = require('axios');
 const Booking = require('../models/bookingModel');
 const Tour = require('../models/tourModel');
 const AppError = require('../utils/appError');
@@ -32,6 +33,10 @@ exports.getLoginForm = (req, res, next) => {
   res.status(200).render('login');
 };
 
+exports.getSignupForm = (req, res, next) => {
+  res.status(200).render('signup');
+};
+
 exports.getAccount = (req, res, next) => {
   res.status(200).render('account', {
     title: 'Your account',
@@ -45,6 +50,19 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
   const tours = await Tour.find({ _id: { $in: tourIDs } });
   res.status(200).render('overview', {
     title: 'My tours',
+    tours,
+  });
+});
+
+exports.getBestCheapest = catchAsync(async (req, res) => {
+  const results = await axios({
+    method: 'GET',
+    url: `${req.protocol}://${req.get('host')}/api/v1/tours/top-5-cheap`,
+  });
+  const tours = results.data.data.doc;
+  console.log(tours);
+  res.status(200).render('overview', {
+    title: 'Our 5 best affordable tours',
     tours,
   });
 });
