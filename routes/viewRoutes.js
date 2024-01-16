@@ -19,6 +19,6 @@ router.get('/login', isLoggedIn, getLoginForm);
 router.get('/signup', isLoggedIn, getSignupForm);
 router.get('/me', protect, getAccount);
 router.get('/my-tours', protect, getMyTours);
-router.get('/top-5-cheap', getBestCheapest);
+router.get('/top-5-cheap', isLoggedIn, getBestCheapest);
 
 module.exports = router;

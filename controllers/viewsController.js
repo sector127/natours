@@ -60,7 +60,6 @@ exports.getBestCheapest = catchAsync(async (req, res) => {
     url: `${req.protocol}://${req.get('host')}/api/v1/tours/top-5-cheap`,
   });
   const tours = results.data.data.doc;
-  console.log(tours);
   res.status(200).render('overview', {
     title: 'Our 5 best affordable tours',
     tours,
