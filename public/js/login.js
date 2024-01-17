@@ -60,3 +60,14 @@ export const logout = async () => {
     showAlert('error', 'Error logging out! Try again.');
   }
 };
+
+export const resetPassword = async () => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: '/api/v1/users/forgotPassword',
+    });
+  } catch (error) {
+    showAlert('error', 'Error reseting password', 2500);
+  }
+};

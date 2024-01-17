@@ -2260,6 +2260,16 @@
       showAlert("error", "Error logging out! Try again.");
     }
   };
+  var resetPassword = async () => {
+    try {
+      const res = await axios_default({
+        method: "POST",
+        url: "/api/v1/users/forgotPassword"
+      });
+    } catch (error) {
+      showAlert("error", "Error reseting password", 2500);
+    }
+  };
 
   // public/js/stripe.js
   var stripe = Stripe(
@@ -2298,6 +2308,7 @@
   var leafletEl = document.getElementById("map");
   var loginForm = document.querySelector(".form--login");
   var signupForm = document.querySelector(".form--signup");
+  var resetPasswordForm = document.querySelector(".form--reset");
   var logOutBtn = document.querySelector(".nav__el--logout");
   var userDataForm = document.querySelector(".form-user-data");
   var userPasswordForm = document.querySelector(".form.form-user-password");
@@ -2373,5 +2384,11 @@
       e.target.textContent = "Processing...";
       const { tourId } = e.target.dataset;
       bookTour(tourId);
+    });
+  if (resetPasswordForm)
+    addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email");
+      resetPassword(email);
     });
 })();

@@ -1393,3 +1393,14 @@ body {
   background-color: #444;
   transition: width 0.1s ease-in-out;
 }
+
+.forgot__password {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgot__password a {
+  font-size: 1.8rem;
+}

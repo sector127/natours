@@ -1,12 +1,13 @@
 /* eslint-disable*/
 import { leaflet } from './leaflet';
-import { login, logout, signup } from './login';
+import { login, logout, resetPassword, signup } from './login';
 import { bookTour } from './stripe';
 import { updateSettings } from './updateSettings';
 
 const leafletEl = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const signupForm = document.querySelector('.form--signup');
+const resetPasswordForm = document.querySelector('.form--reset');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form.form-user-password');
@@ -95,4 +96,11 @@ if (bookBtn)
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId);
+  });
+
+if (resetPasswordForm)
+  addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email');
+    resetPassword(email);
   });

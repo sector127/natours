@@ -65,3 +65,7 @@ exports.getBestCheapest = catchAsync(async (req, res) => {
     tours,
   });
 });
+
+exports.getForgotPassword = catchAsync(async (req, res) => {
+  res.status(200).render('forgotPassword');
+});
