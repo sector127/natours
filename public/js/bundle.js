@@ -2260,14 +2260,45 @@
       showAlert("error", "Error logging out! Try again.");
     }
   };
-  var resetPassword = async () => {
+  var forgotPassword = async (email) => {
     try {
       const res = await axios_default({
         method: "POST",
-        url: "/api/v1/users/forgotPassword"
+        url: "/api/v1/users/forgotPassword",
+        data: {
+          email
+        }
       });
+      if (res.data.status === "success") {
+        showAlert("success", "Please check your email!");
+        window.setTimeout(() => {
+          location.assign("/");
+        }, 1500);
+      }
     } catch (error) {
-      showAlert("error", "Error reseting password", 2500);
+      showAlert("error", `Error reseting password 
+${error.message}`, 2500);
+    }
+  };
+  var resetPassword = async (password, passwordConfirmation, token) => {
+    try {
+      const res = await axios_default({
+        method: "PATCH",
+        url: `/api/v1/users/resetPassword/${token}`,
+        data: {
+          password,
+          passwordConfirmation
+        }
+      });
+      if (res.data.status === "success") {
+        showAlert("success", "You reset your password!");
+        window.setTimeout(() => {
+          location.assign("/me");
+        }, 2500);
+      }
+    } catch (error) {
+      showAlert("error", `Error reseting password 
+${error.message}`, 2500);
     }
   };
 
@@ -2308,7 +2339,8 @@
   var leafletEl = document.getElementById("map");
   var loginForm = document.querySelector(".form--login");
   var signupForm = document.querySelector(".form--signup");
-  var resetPasswordForm = document.querySelector(".form--reset");
+  var forgotPasswordForm = document.querySelector(".form--forgotPassword");
+  var resetPasswordForm = document.querySelector(".form--resetPassword");
   var logOutBtn = document.querySelector(".nav__el--logout");
   var userDataForm = document.querySelector(".form-user-data");
   var userPasswordForm = document.querySelector(".form.form-user-password");
@@ -2385,10 +2417,20 @@
       const { tourId } = e.target.dataset;
       bookTour(tourId);
     });
-  if (resetPasswordForm)
+  if (forgotPasswordForm)
     addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = document.getElementById("email");
-      resetPassword(email);
+      const email = document.getElementById("email").value;
+      forgotPassword(email);
+    });
+  if (resetPasswordForm)
+    addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = window.location.pathname.split("/").pop();
+      const password = document.getElementById("password").value;
+      const passwordConfirmation = document.getElementById(
+        "passwordConfirmation"
+      ).value;
+      resetPassword(password, passwordConfirmation, token);
     });
 })();

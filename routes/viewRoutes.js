@@ -8,6 +8,7 @@ const {
   getSignupForm,
   getBestCheapest,
   getForgotPassword,
+  getGetResetPassword,
 } = require('../controllers/viewsController');
 const { isLoggedIn, protect } = require('../controllers/authController');
 const { createBookingCheckout } = require('../controllers/bookingController');
@@ -19,6 +20,7 @@ router.get('/tour/:slug', isLoggedIn, getTour);
 router.get('/login', isLoggedIn, getLoginForm);
 router.get('/signup', isLoggedIn, getSignupForm);
 router.get('/forgot-password', getForgotPassword);
+router.get('/reset-password/:token', getGetResetPassword);
 router.get('/me', protect, getAccount);
 router.get('/my-tours', protect, getMyTours);
 router.get('/top-5-cheap', isLoggedIn, getBestCheapest);

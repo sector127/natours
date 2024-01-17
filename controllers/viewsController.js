@@ -69,3 +69,7 @@ exports.getBestCheapest = catchAsync(async (req, res) => {
 exports.getForgotPassword = catchAsync(async (req, res) => {
   res.status(200).render('forgotPassword');
 });
+
+exports.getGetResetPassword = catchAsync(async (req, res) => {
+  res.status(200).render('resetPassword');
+});

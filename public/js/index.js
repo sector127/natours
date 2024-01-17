@@ -1,13 +1,14 @@
 /* eslint-disable*/
 import { leaflet } from './leaflet';
-import { login, logout, resetPassword, signup } from './login';
+import { login, logout, forgotPassword, signup, resetPassword } from './login';
 import { bookTour } from './stripe';
 import { updateSettings } from './updateSettings';
 
 const leafletEl = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const signupForm = document.querySelector('.form--signup');
-const resetPasswordForm = document.querySelector('.form--reset');
+const forgotPasswordForm = document.querySelector('.form--forgotPassword');
+const resetPasswordForm = document.querySelector('.form--resetPassword');
 const logOutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form.form-user-password');
@@ -98,9 +99,20 @@ if (bookBtn)
     bookTour(tourId);
   });
 
-if (resetPasswordForm)
+if (forgotPasswordForm)
   addEventListener('submit', (e) => {
     e.preventDefault();
-    const email = document.getElementById('email');
-    resetPassword(email);
+    const email = document.getElementById('email').value;
+    forgotPassword(email);
+  });
+
+if (resetPasswordForm)
+  addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const token = window.location.pathname.split('/').pop();
+    const password = document.getElementById('password').value;
+    const passwordConfirmation = document.getElementById(
+      'passwordConfirmation',
+    ).value;
+    resetPassword(password, passwordConfirmation, token);
   });

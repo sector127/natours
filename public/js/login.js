@@ -61,13 +61,43 @@ export const logout = async () => {
   }
 };
 
-export const resetPassword = async () => {
+export const forgotPassword = async (email) => {
   try {
     const res = await axios({
       method: 'POST',
       url: '/api/v1/users/forgotPassword',
+      data: {
+        email,
+      },
     });
+    if (res.data.status === 'success') {
+      showAlert('success', 'Please check your email!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
   } catch (error) {
-    showAlert('error', 'Error reseting password', 2500);
+    showAlert('error', `Error reseting password \n${error.message}`, 2500);
+  }
+};
+
+export const resetPassword = async (password, passwordConfirmation, token) => {
+  try {
+    const res = await axios({
+      method: 'PATCH',
+      url: `/api/v1/users/resetPassword/${token}`,
+      data: {
+        password,
+        passwordConfirmation,
+      },
+    });
+    if (res.data.status === 'success') {
+      showAlert('success', 'You reset your password!');
+      window.setTimeout(() => {
+        location.assign('/me');
+      }, 2500);
+    }
+  } catch (error) {
+    showAlert('error', `Error reseting password \n${error.message}`, 2500);
   }
 };
